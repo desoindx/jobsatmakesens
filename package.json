@@ -4,7 +4,7 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "download": "ts-node index.ts"
+    "download": "tsx index.ts"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,6 @@
     "google-auth-library": "^9.15.1",
     "googleapis": "^144.0.0",
     "node-html-parser": "^7.0.1",
-    "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
   "devDependencies": {
