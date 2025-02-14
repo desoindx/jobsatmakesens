@@ -1,0 +1,28 @@
+name: Get Jobs
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache --check-cache
+      - name: Run script
+        run: node /Users/desoindx/git/jobsatmakesens/index.ts
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          PRIVATE_KEY_ID: ${{ secrets.PRIVATE_KEY_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}

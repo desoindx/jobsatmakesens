@@ -1,0 +1,28 @@
+{
+  "name": "jobsatmakesens",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desoindx/jobsatmakesens.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/desoindx/jobsatmakesens/issues"
+  },
+  "homepage": "https://github.com/desoindx/jobsatmakesens#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^144.0.0",
+    "node-html-parser": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4"
+  }
+}
