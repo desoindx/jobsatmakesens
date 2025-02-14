@@ -20,7 +20,8 @@
     "dotenv": "^16.4.7",
     "google-auth-library": "^9.15.1",
     "googleapis": "^144.0.0",
-    "node-html-parser": "^7.0.1"
+    "node-html-parser": "^7.0.1",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.4"
