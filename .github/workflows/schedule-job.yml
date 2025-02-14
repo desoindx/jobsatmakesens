@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Run script
-        run: npx ts-node index.ts
+        run: yarn download
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
           PRIVATE_KEY_ID: ${{ secrets.PRIVATE_KEY_ID }}
