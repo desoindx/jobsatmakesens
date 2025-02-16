@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const site = "https://jobs.makesense.org";
+
 const auth = new GoogleAuth({
   credentials: {
     type: "service_account",
@@ -21,7 +23,7 @@ const auth = new GoogleAuth({
 const service = google.sheets({ version: "v4", auth });
 
 const getJob = async (link: string) => {
-  const response = await fetch(`https://jobs.makesense.org${link}`);
+  const response = await fetch(link);
   const html = await response.text();
   const root = parse(html);
 
@@ -46,8 +48,16 @@ const getJob = async (link: string) => {
     .find((a) => a.text.trim() === "Site internet")
     ?.getAttribute("href");
 
-  return { link, title, entreprise, publishedDate, website };
+  const type = root
+    .querySelectorAll("div.meta")
+    .filter((div) => div.querySelector("div[role='button']"))
+    .slice(1)
+    .map((div) => div.text.trim())
+    .join(", ");
+
+  return { link, title, entreprise, publishedDate, website, type };
 };
+
 type Job = Awaited<ReturnType<typeof getJob>>;
 const saveOnGoogleSheet = async (jobs: Job[]) => {
   const result = await service.spreadsheets.values.append({
@@ -62,6 +72,7 @@ const saveOnGoogleSheet = async (jobs: Job[]) => {
         job.title,
         job.entreprise,
         job.website,
+        job.type,
         job.publishedDate,
       ]),
     },
@@ -93,9 +104,8 @@ const getAllJobs = async () => {
     const pageLinks = root
       .querySelectorAll(".item")
       .map((job) => job.querySelector("a")?.getAttribute("href"))
-      .filter(
-        (link) => link !== undefined && link.startsWith("/fr/jobs")
-      ) as string[];
+      .filter((link) => link !== undefined && link.startsWith("/fr/jobs"))
+      .map((link) => `${site}${link}`);
     page++;
     pageLinksCount = pageLinks.length;
     links = links.concat(pageLinks);
@@ -104,8 +114,9 @@ const getAllJobs = async () => {
   links = links.filter((link) => !existingJobs.includes(link));
   console.log(`Analysing ${links.length} jobs`);
   const jobs = [] as Job[];
+  let i = 1;
   for (const link of links) {
-    console.log(`${link}...`);
+    console.log(`${i}/${links.length} : ${link}...`);
     const job = await getJob(link);
     jobs.push(job);
   }
